@@ -2,6 +2,8 @@
 
 Moving a small plumbing firm's website from an office PC to AWS.
 
+> **Note:** This is a design case study. I built and tested the EC2 and S3 parts in AWS Learner Lab. The full solution (CloudFront, form Lambda, SES) is a design, and the costs are estimates from the AWS Pricing Calculator, not a real bill.
+
 ## The problem
 
 The firm (12 employees) runs its website on an office PC. After a power cut the site was down for two days. Nobody at the firm knows IT, and the budget is at most 300 SEK per month. The site has 5 text pages and 400 images (about 2 GB), roughly 3,000 visits per month mostly from the Mälardalen area, and a quote form (about 40 requests per month).
@@ -36,14 +38,19 @@ flowchart LR
 
 ## Cost estimate (Stockholm)
 
+Estimate from the AWS Pricing Calculator. The calculator does not include free-tier discounts, so the real bill is likely even lower.
+
 | Item | Monthly cost |
 | --- | --- |
-| S3 (2 GB) | [from Pricing Calculator] |
-| CloudFront (about 3,000 visits) | [from Pricing Calculator] |
-| API Gateway + Lambda (about 40 requests) | [from Pricing Calculator] |
-| SES (about 40 emails) | [from Pricing Calculator] |
-| **Total** | **[total] (limit: 300 SEK)** |
-| For comparison: one t3.micro EC2 instance running all month | about 7.88 USD (0.0108 USD/hour in Stockholm) |
+| S3 (2 GB, Stockholm) | 0.06 USD |
+| CloudFront (6 GB out, 30,000 requests, priced for Europe/Frankfurt) | 0.54 USD |
+| API Gateway (HTTP API, about 1,000 requests) | 0.00 USD |
+| Lambda (40 requests) | 0.00 USD |
+| SES (40 emails) | 0.00 USD |
+| **Total** | **0.60 USD per month (about 6 SEK)** |
+| For comparison: one t3.micro EC2 instance running all month | about 7.88 USD (about 79 SEK) |
+
+The total is far below the 300 SEK limit. The domain name (about 100 to 150 SEK per year if the firm wants one) is not included.
 
 ## Risks and mitigations
 
@@ -66,4 +73,4 @@ In AWS Learner Lab I built an EC2 web server and an S3 static site. I tested:
 
 ## Limitations
 
-Learner Lab limits which regions and services I can use, so [what was blocked, in your own words]. The full VVS solution (CloudFront, the form Lambda, SES) is a design; [what you actually built, if anything].
+Learner Lab limits which regions and services I can use. I did not deploy CloudFront, the form Lambda or SES, so the full solution and its costs are a design and an estimate. What I did build and test is the EC2 server, security group, S3 bucket and the latency measurements.
