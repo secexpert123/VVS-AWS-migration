@@ -1,0 +1,11 @@
+# Never commit keys, credentials or secrets
+*.pem
+*.key
+.env
+.aws/
+credentials
+*accessKeys*.csv
+
+# System files
+.DS_Store
+Thumbs.db
